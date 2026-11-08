@@ -1,0 +1,6 @@
+{
+  "appId": "br.com.kej.gestao",
+  "appName": "KEJ Gestão",
+  "webDir": "www",
+  "bundledWebRuntime": false
+}

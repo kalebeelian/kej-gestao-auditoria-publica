@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#172b4d"><title>KEJ Gestão V12</title>
+<style>
+:root{--navy:#172b4d;--blue:#2d609c;--yellow:#f4c542;--bg:#f3f5f8;--card:#fff;--ink:#1e2938;--muted:#6c7889;--line:#e3e8ef;--green:#16845b;--red:#c44747;--orange:#b56b14;--shadow:0 5px 20px #172b4d10}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#f6f8fb 0%,#eef2f7 100%);color:var(--ink);font:14px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+header{background:linear-gradient(120deg,#10233f 0%,#1d416d 58%,#285b91 100%);color:#fff;padding:16px;position:sticky;top:0;z-index:5;box-shadow:0 6px 22px #10233d26;border-bottom:1px solid #ffffff18}.head{max-width:1180px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{display:flex;align-items:center;gap:10px}.logo{width:42px;height:42px;border-radius:13px;background:var(--yellow);color:var(--navy);display:grid;place-items:center;font-size:23px;font-weight:900}.brand h1{font-size:18px;margin:0}.brand small{display:block;color:#d7e3f0;font-size:11px}.top{display:flex;gap:7px;flex-wrap:wrap}
+button{border:0;border-radius:9px;padding:9px 12px;font-weight:700;font-size:12px;cursor:pointer;background:var(--blue);color:white}button:disabled{opacity:.45;cursor:not-allowed}.light{background:#ffffff18;color:#fff;border:1px solid #ffffff44}.yellow{background:var(--yellow);color:#29364a}.mutedbtn{background:#edf1f6;color:#35445a}.danger{background:#fff0f0;color:var(--red)}.small{padding:6px 8px;font-size:11px}
+main{max-width:1180px;margin:16px auto;padding:0 13px 40px}.notice{background:#fff7dd;border:1px solid #efdfa8;color:#66551e;padding:10px 12px;border-radius:11px;font-size:12px;margin-bottom:12px}.tabs{display:flex;gap:6px;overflow:auto;padding:2px 0 12px;scrollbar-width:thin}.tab{white-space:nowrap;background:#e7edf4;color:#3e5069}.tab.active{background:var(--navy);color:#fff}.page{display:none}.page.active{display:block}.heading{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:7px 0 13px}.heading h2{font-size:21px;margin:0}.heading p{margin:2px 0 0;color:var(--muted);font-size:12px}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.stat,.panel{background:var(--card);border:1px solid #e1e8f1;border-radius:17px;padding:16px;box-shadow:0 8px 24px #172b4d0b;transition:box-shadow .18s ease,transform .18s ease}.stat small{color:var(--muted);font-weight:650}.stat strong{display:block;font-size:23px;color:var(--navy);margin-top:4px}.stat em{display:block;color:var(--muted);font-size:11px;font-style:normal;margin-top:2px}.panel{margin-top:12px}.panel h3{font-size:15px;margin:0 0 10px}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.search{max-width:250px;width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:9px;font:inherit}.tablewrap{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:580px}th,td{padding:9px 8px;text-align:left;border-bottom:1px solid var(--line);font-size:12px;vertical-align:middle}th{font-size:10px;text-transform:uppercase;letter-spacing:.4px;color:#728095}td strong{color:var(--navy)}.empty{text-align:center;padding:25px;color:var(--muted)}.badge{display:inline-block;padding:3px 7px;border-radius:30px;font-size:10px;font-weight:750;background:#edf1f6;color:#42516a}.ok{background:#e4f5ed;color:#16734e}.warn{background:#fff3d5;color:#8b650e}.bad{background:#fdeaea;color:#a63333}.actions{display:flex;gap:4px;flex-wrap:wrap}.help{font-size:11px;color:var(--muted);margin:7px 0 0}.kpi-line{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding:8px 0;font-size:13px}.kpi-line:last-child{border:0}
+.modalbg{position:fixed;inset:0;background:#0b1830a8;display:none;align-items:flex-end;justify-content:center;z-index:10;padding:10px}.modalbg.open{display:flex}.modal{width:min(700px,100%);max-height:94vh;overflow:auto;background:#fff;border:1px solid #e4eaf2;border-radius:20px;padding:19px;box-shadow:0 18px 65px #0004}.modal h3{margin:0 0 13px;font-size:18px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{display:flex;flex-direction:column;gap:4px}.field.full{grid-column:1/-1}.field label{font-size:11px;font-weight:750;color:#56657a}.field input,.field select,.field textarea{width:100%;padding:10px;border:1px solid #dce2e9;border-radius:8px;font:inherit;background:#fff;color:var(--ink)}.field textarea{min-height:76px;resize:vertical}.modalactions{display:flex;justify-content:flex-end;gap:7px;margin-top:14px}.foot{text-align:center;color:#8792a0;font-size:10px;padding:18px}
+@media(max-width:760px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.head{align-items:flex-start}.brand h1{font-size:16px}.stat{padding:11px}.stat strong{font-size:20px}.top button{padding:7px 8px}}
+@media(max-width:430px){.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.grid{gap:7px}}
+
+.app-layout{display:grid;grid-template-columns:248px minmax(0,1fr);gap:0;max-width:1440px;margin:0 auto;min-height:calc(100vh - 72px)}
+.sidebar{background:#fff;border-right:1px solid var(--line);padding:18px 12px;position:sticky;top:72px;height:calc(100vh - 72px);overflow:auto}
+.side-label{font-size:10px;text-transform:uppercase;letter-spacing:.8px;font-weight:800;color:#8a96a6;padding:13px 10px 6px}
+.side-nav{display:grid;gap:3px}.side-nav .tab{display:flex;align-items:center;gap:10px;text-align:left;width:100%;padding:10px 11px;border-radius:9px;background:transparent;color:#43516a;font-size:13px}
+.side-nav .tab .nav-ico{width:22px;text-align:center;font-size:16px}.side-nav .tab.active{background:linear-gradient(90deg,#edf3fb,#f7f9fc);color:var(--navy);box-shadow:inset 3px 0 var(--yellow);font-weight:800}
+.side-nav .tab:hover{background:#f1f4f8}.main-content{min-width:0;padding:16px 18px 38px}.main-content .notice{margin-bottom:14px}
+.menu-toggle{display:none}.dash-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.dash-shortcuts{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.shortcut{background:#edf2f8;color:var(--navy);border:1px solid #dfe7f1;padding:10px 13px;font-size:12px}
+.dash-columns{display:grid;grid-template-columns:1.15fr .85fr;gap:12px}.attention-item{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:12px}.attention-item:last-child{border:0}
+@media(max-width:900px){.app-layout{grid-template-columns:210px minmax(0,1fr)}.dash-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.app-layout{display:block;min-height:0}.sidebar{position:fixed;z-index:20;left:0;top:0;bottom:0;width:min(290px,84vw);height:100dvh;transform:translateX(-105%);transition:transform .22s ease;box-shadow:10px 0 35px #10233d25;padding-top:18px}.sidebar.open{transform:translateX(0)}.side-backdrop{display:none;position:fixed;inset:0;background:#0b183080;z-index:19}.side-backdrop.open{display:block}.menu-toggle{display:inline-flex;align-items:center;gap:6px}.main-content{padding:12px 12px 30px}.head{align-items:center}.top{justify-content:flex-end}.top button{font-size:10px}.dash-columns{grid-template-columns:1fr}}
+
+
+/* KEJ V12 — acabamento visual e configuração multissetorial */
+button{transition:filter .15s ease,transform .15s ease,box-shadow .15s ease}
+button:active{transform:translateY(1px)}
+button:not(:disabled):hover{filter:brightness(.98);box-shadow:0 3px 10px #172b4d16}
+.field input:focus,.field select:focus,.field textarea:focus,.search:focus{outline:3px solid #2d609c22;border-color:#5682b5}
+.settings-hero{background:linear-gradient(120deg,#142b4c,#2c6097);color:#fff;border-radius:18px;padding:18px;margin-bottom:14px;box-shadow:0 8px 24px #172b4d20}
+.settings-hero p{margin:5px 0 0;color:#dce8f5}
+.settings-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.setting-choice{display:flex;align-items:flex-start;gap:10px;padding:12px;border:1px solid var(--line);border-radius:12px;background:#fbfcfe}
+.setting-choice input{margin-top:3px;accent-color:var(--navy);width:17px;height:17px}
+.setting-choice strong{display:block;font-size:13px}
+.setting-choice small{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+.settings-note{padding:12px;border-radius:12px;background:#fff7df;border:1px solid #f0dfaa;color:#725b18;font-size:12px;margin-top:12px}
+@media(max-width:560px){.settings-grid{grid-template-columns:1fr}}
+.updater-status{padding:12px;border:1px solid var(--line);border-radius:12px;background:#f8fafc;margin:10px 0}
+.updater-status.good{background:#eaf7f0;border-color:#b9e3ca;color:#176343}
+.updater-status.warn{background:#fff7df;border-color:#efdfa8;color:#725b18}
+.updater-result{font:12px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere;background:#f4f6f9;border-radius:10px;padding:12px;margin-top:10px}
+.updater-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+
+
+</style></head>
+<body>
+<header><div class="head"><div class="brand"><div class="logo">K</div><div><h1>KEJ Gestão</h1><small>Gestão integrada • versão offline</small></div></div><div class="top"><button class="light menu-toggle" onclick="toggleMenu()">☰ Menu</button><button class="light" onclick="exportBackup()">Exportar backup</button><button class="light" onclick="document.getElementById('importFile').click()">Importar backup</button><input id="importFile" type="file" accept="application/json" hidden onchange="importBackup(event)"></div></div></header>
+<div class="app-layout">
+<aside class="sidebar" id="sidebar">
+<div class="side-label">Visão geral</div><nav class="side-nav" id="tabs">
+<button class="tab active" data-p="inicio"><span class="nav-ico">⌂</span>Início</button></nav>
+<div class="side-label">Vendas e atendimento</div><nav class="side-nav">
+<button class="tab" data-p="pedidos"><span class="nav-ico">▤</span>Pedidos</button><button class="tab" data-p="agenda"><span class="nav-ico">▦</span>Agenda e entregas</button><button class="tab" data-p="clientes"><span class="nav-ico">♙</span>Clientes</button></nav>
+<div class="side-label">Produção e estoque</div><nav class="side-nav">
+<button class="tab" data-p="producao"><span class="nav-ico">♨</span>Produção</button><button class="tab" data-p="produtos"><span class="nav-ico">▣</span>Produtos prontos</button><button class="tab" data-p="insumos"><span class="nav-ico">▤</span>Insumos e embalagens</button><button class="tab" data-p="lotes"><span class="nav-ico">◷</span>Lotes e validades</button><button class="tab" data-p="receitas"><span class="nav-ico">▧</span>Fichas técnicas</button><button class="tab" data-p="compras"><span class="nav-ico">＋</span>Compras</button><button class="tab" data-p="movimentos"><span class="nav-ico">↕</span>Movimentações</button></nav>
+<div class="side-label">Gestão</div><nav class="side-nav">
+<button class="tab" data-p="despesas"><span class="nav-ico">＄</span>Despesas</button><button class="tab" data-p="relatorios"><span class="nav-ico">▥</span>Relatórios</button><button class="tab" data-p="funcionarios"><span class="nav-ico">♧</span>Equipe</button><button class="tab" data-p="checklists"><span class="nav-ico">☑</span>Checklists</button><button class="tab" data-p="qualidade"><span class="nav-ico">✓</span>Qualidade</button></nav><div class="side-label">Personalização</div><nav class="side-nav"><button class="tab" data-p="negocio"><span class="nav-ico">⚙</span>Meu negócio</button><button class="tab" data-p="atualizador"><span class="nav-ico">⇧</span>Atualizador</button></nav>
+</aside><div class="side-backdrop" id="sideBackdrop" onclick="toggleMenu(false)"></div>
+<main class="main-content"><div class="notice"><b>100% local neste aparelho:</b> sem conta, servidor ou hospedagem. Os dados ficam neste navegador. Exporte backups regularmente. Não sincroniza automaticamente com outros aparelhos.</div>
+<section class="page active" id="p-inicio"><div class="heading"><div><h2>Painel de controle</h2><p id="dateLabel"></p></div><button class="yellow" onclick="openForm('pedidos')">＋ Novo pedido</button></div><div class="dash-grid" id="dashStats"></div><div class="dash-shortcuts"><button class="shortcut" onclick="openForm('pedidos')">＋ Registrar pedido</button><button class="shortcut" onclick="navigateTo('producao')">♨ Ver produção</button><button class="shortcut" onclick="navigateTo('insumos')">▤ Conferir estoque</button><button class="shortcut" onclick="navigateTo('agenda')">▦ Abrir agenda</button></div><div class="dash-columns"><div class="panel"><h3>O que precisa de atenção</h3><div id="alerts"></div></div><div class="panel"><h3>Produção pendente</h3><div id="dashProduction"></div></div></div><div class="panel"><h3>Pedidos recentes</h3><div id="recent"></div></div></section>
+<section class="page" id="p-pedidos"><div class="heading"><div><h2>Pedidos</h2><p>Registre itens, valores, pagamento e andamento.</p></div><button onclick="openForm('pedidos')">＋ Novo pedido</button></div><div class="panel" id="tbl-pedidos"></div></section>
+<section class="page" id="p-agenda"><div class="heading"><div><h2>Agenda e entregas</h2><p>Pedidos por data, produção pendente e acompanhamento da entrega.</p></div></div><div class="panel" id="agendaContent"></div><div class="panel"><h3>Histórico de entregas</h3><div id="deliveryHistory"></div></div></section>
+<section class="page" id="p-funcionarios"><div class="heading"><div><h2>Equipe</h2><p>Cadastro de responsáveis e acompanhamento de tarefas.</p></div><button onclick="openForm('funcionarios')">＋ Cadastrar funcionário</button></div><div class="panel" id="tbl-funcionarios"></div></section>
+<section class="page" id="p-checklists"><div class="heading"><div><h2>Checklists operacionais</h2><p>Abertura, limpeza, higiene e fechamento com responsável.</p></div><button onclick="openForm('checklists')">＋ Registrar checklist</button></div><div class="panel" id="tbl-checklists"></div></section>
+<section class="page" id="p-qualidade"><div class="heading"><div><h2>Qualidade e higiene</h2><p>Registre conferências, temperatura, não conformidades e ações corretivas.</p></div><button onclick="openForm('qualidade')">＋ Registrar verificação</button></div><div class="panel" id="tbl-qualidade"></div></section>
+<section class="page" id="p-clientes"><div class="heading"><h2>Clientes</h2><button onclick="openForm('clientes')">＋ Novo cliente</button></div><div class="panel" id="tbl-clientes"></div></section>
+<section class="page" id="p-produtos"><div class="heading"><div><h2>Produtos</h2><p>Preço de venda e saldo de produtos prontos.</p></div><button onclick="openForm('produtos')">＋ Novo produto</button></div><div class="panel" id="tbl-produtos"></div></section>
+<section class="page" id="p-insumos"><div class="heading"><div><h2>Insumos e embalagens</h2><p>Saldo, custo médio e alerta de reposição.</p></div><button onclick="openForm('insumos')">＋ Novo insumo</button></div><div class="panel" id="tbl-insumos"></div></section>
+<section class="page" id="p-lotes"><div class="heading"><div><h2>Lotes e validades</h2><p>Consumo prioriza primeiro os lotes com validade mais próxima (FEFO).</p></div><button class="mutedbtn" onclick="openForm('ajustes')">＋ Ajuste de estoque</button></div><div class="panel" id="tbl-lotes"></div></section>
+<section class="page" id="p-movimentos"><div class="heading"><div><h2>Movimentações de estoque</h2><p>Histórico de entradas, consumo, perdas e ajustes.</p></div><button onclick="openForm('ajustes')">＋ Nova movimentação</button></div><div class="panel" id="tbl-movimentos"></div></section>
+<section class="page" id="p-receitas"><div class="heading"><div><h2>Fichas técnicas</h2><p>Associe ingredientes e quantidades ao produto para calcular custo.</p></div><button onclick="openForm('receitas')">＋ Nova ficha técnica</button></div><div class="panel" id="tbl-receitas"></div></section>
+<section class="page" id="p-compras"><div class="heading"><div><h2>Compras</h2><p>Registrar compra atualiza o estoque e o custo médio do insumo.</p></div><button onclick="openForm('compras')">＋ Registrar compra</button></div><div class="panel" id="tbl-compras"></div></section>
+<section class="page" id="p-producao"><div class="heading"><div><h2>Produção</h2><p>Ao confirmar, consome os ingredientes da ficha técnica e soma produtos prontos.</p></div><button onclick="openForm('producao')">＋ Registrar produção</button></div><div class="panel"><h3>Ordens de produção vinculadas aos pedidos</h3><div id="productionQueue"></div></div><div class="panel" id="tbl-producao"></div></section>
+<section class="page" id="p-despesas"><div class="heading"><div><h2>Despesas</h2><p>Despesas fixas, operacionais e outros gastos.</p></div><button onclick="openForm('despesas')">＋ Lançar despesa</button></div><div class="panel" id="tbl-despesas"></div></section>
+<section class="page" id="p-relatorios"><div class="heading"><div><h2>Relatórios</h2><p>Indicadores calculados com os registros deste aparelho.</p></div><button class="mutedbtn" onclick="exportCSV()">Exportar resumo CSV</button></div><div class="grid" id="reportStats"></div><div class="panel"><h3>Resumo financeiro do mês</h3><div id="reportFinance"></div></div><div class="panel"><h3>Consumo e perdas de produção</h3><div id="reportOps"></div></div></section>
+<div class="foot">KEJ Gestão • offline • versão 10 • faça backup antes de trocar de aparelho ou limpar o navegador</div>
+</main></div>
+<section class="page" id="p-negocio">
+<div class="heading"><div><h2>Meu negócio</h2><p>Personalize o KEJ Gestão para a atividade da sua empresa.</p></div></div>
+<div class="settings-hero"><strong>Uma gestão que se adapta ao seu negócio.</strong><p>Escolha seu segmento e ative apenas os recursos que fazem sentido para sua operação. A configuração não apaga seus registros.</p></div>
+<div class="panel"><h3>Identificação</h3><div class="formgrid">
+<div class="field"><label for="businessName">Nome do negócio</label><input id="businessName" maxlength="70" placeholder="Ex.: Minha empresa"></div>
+<div class="field"><label for="businessSegment">Segmento principal</label><select id="businessSegment" onchange="suggestModulesBySegment()"><option value="geral">Comércio ou serviços em geral</option><option value="varejo">Comércio varejista / atacadista</option><option value="alimentacao">Alimentação e produção</option><option value="servicos">Prestação de serviços</option><option value="fabricacao">Indústria / fabricação</option><option value="distribuicao">Distribuição / logística</option><option value="outro">Outro segmento</option></select></div>
+</div><p class="help">O segmento personaliza a experiência, mas não restringe clientes, produtos, vendas, despesas ou relatórios.</p></div>
+<div class="panel"><h3>Módulos opcionais</h3><p class="help">Desative somente o que sua empresa não utiliza. Os registros permanecem guardados; você pode reativar os módulos quando quiser.</p>
+<div class="settings-grid">
+<label class="setting-choice"><input type="checkbox" id="modProduction"><span><strong>Produção / fabricação</strong><small>Ordens, tarefas e acompanhamento de produção.</small></span></label>
+<label class="setting-choice"><input type="checkbox" id="modMaterials"><span><strong>Estoque e materiais</strong><small>Insumos, produtos, compras e movimentações.</small></span></label>
+<label class="setting-choice"><input type="checkbox" id="modLots"><span><strong>Lotes e validade</strong><small>Rastreabilidade de lotes e vencimentos.</small></span></label>
+<label class="setting-choice"><input type="checkbox" id="modRecipes"><span><strong>Fichas técnicas / composição</strong><small>Custos, componentes e consumo previsto.</small></span></label>
+<label class="setting-choice"><input type="checkbox" id="modTeam"><span><strong>Gestão de equipe</strong><small>Funcionários e responsáveis.</small></span></label>
+<label class="setting-choice"><input type="checkbox" id="modAgenda"><span><strong>Agenda e entregas</strong><small>Programação e acompanhamento de entregas.</small></span></label>
+<label class="setting-choice"><input type="checkbox" id="modChecklists"><span><strong>Checklists operacionais</strong><small>Rotinas, conferências e tarefas.</small></span></label>
+<label class="setting-choice"><input type="checkbox" id="modQuality"><span><strong>Qualidade e inspeções</strong><small>Verificações e ações corretivas.</small></span></label>
+</div>
+<div class="row" style="margin-top:14px"><button class="yellow" onclick="saveBusinessConfig()">Salvar configuração</button><button class="mutedbtn" onclick="resetBusinessConfig()">Restaurar módulos padrão</button></div>
+<div class="settings-note">Importante: ocultar um módulo não exclui dados. A configuração será incluída nos próximos backups do KEJ Gestão.</div>
+</div></section>
+<section class="page" id="p-atualizador">
+<div class="heading"><div><h2>Atualizador KEJ</h2><p>Selecione e prepare um pacote de atualização sem aplicá-lo ao sistema.</p></div></div>
+<div class="settings-hero"><strong>Preparação segura de pacotes</strong><p>Esta etapa apenas inspeciona um ZIP e grava os arquivos em uma área privada do aplicativo. Não instala atualizações nem altera os dados da doceria.</p></div>
+<div class="panel">
+<h3>1. Disponibilidade do componente Android</h3>
+<div id="updaterNativeStatus" class="updater-status warn">Verificando integração nativa…</div>
+<p class="help">O atualizador funciona somente no APK Android compilado com o plugin KEJUpdater. A visualização no navegador não consegue acessar o seletor de arquivos nativo.</p>
+</div>
+<div class="panel">
+<h3>2. Selecionar pacote</h3>
+<p>Escolha um arquivo ZIP pelo seletor de documentos do Android. O arquivo original não será movido nem apagado.</p>
+<div id="updaterSelected" class="updater-status">Nenhum pacote selecionado.</div>
+<div class="updater-actions"><button id="updaterChooseBtn" type="button" onclick="kejChoosePackage()">Selecionar pacote ZIP</button><button class="mutedbtn" id="updaterInspectBtn" type="button" onclick="kejInspectPackage()" disabled>Inspecionar e preparar</button></div>
+</div>
+<div class="panel">
+<h3>3. Resultado da inspeção</h3>
+<div id="updaterResult" class="updater-status">Nenhuma inspeção executada.</div>
+<div class="updater-actions"><button class="danger" id="updaterClearBtn" type="button" onclick="kejClearStaging()" disabled>Limpar preparação</button></div>
+<p class="help">Limites desta versão: 256 MiB extraídos, 10.000 entradas e processamento em blocos de 64 KiB. ZIP64 não certificado. A preparação não é uma atualização aplicada.</p>
+</div>
+<div class="settings-note">Importante: mantenha um backup independente dos dados da doceria. Esta versão não implementa instalação, migração, rollback de banco ou atualização do APK.</div>
+</section>
+<div class="modalbg" id="modal" onclick="if(event.target===this)closeModal()"><div class="modal"><h3 id="modalTitle"></h3><form id="form"><div class="formgrid" id="fields"></div><p class="help" id="formHelp"></p><div class="modalactions"><button type="button" class="mutedbtn" onclick="closeModal()">Cancelar</button><button type="submit">Salvar</button></div></form></div></div>
+<script type="module" src="./kej-updater-bridge.js"></script>
+<script>
+const KEY='doceria_gestao_offline_v2';
+const defaultBusinessConfig={name:'',segment:'geral',modules:{production:true,materials:true,lots:true,recipes:true,team:true,agenda:true,checklists:true,quality:true}};
+const blank={pedidos:[],clientes:[],produtos:[],insumos:[],receitas:[],compras:[],producao:[],despesas:[],movimentos:[],lotes:[],ajustes:[],ordensProducao:[],funcionarios:[],checklists:[],qualidade:[],entregas:[],config:defaultBusinessConfig};
+let db=load(),moduleNow='',editing=null;
+function load(){try{const saved=JSON.parse(localStorage.getItem(KEY)||'{}');return {...structuredClone(blank),...saved,config:{...structuredClone(defaultBusinessConfig),...(saved.config||{}),modules:{...defaultBusinessConfig.modules,...((saved.config||{}).modules||{})}}}}catch(e){return structuredClone(blank)}}
+function persist(){localStorage.setItem(KEY,JSON.stringify(db));renderAll()}
+function id(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function brl(v){return Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
+function iso(){const d=new Date();return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')}
+function fmtDate(v){return v?new Date(v+'T12:00:00').toLocaleDateString('pt-BR'):'—'}
+function monthNow(){return iso().slice(0,7)}
+function deliveredDate(order){
+ const event=(order.statusHistorico||[]).find(x=>x.status==='Entregue');
+ if(event&&event.data){const d=new Date(event.data);if(!Number.isNaN(d.getTime()))return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')}
+ return order.data||'';
+}
+function validateUsableLots(needs){
+ const today=iso(),problems=[];
+ for(const x of needs){
+  const lots=db.lotes.filter(l=>l.insumo===x.it.nome&&Number(l.saldo||0)>0);
+  const tracked=lots.reduce((a,l)=>a+Number(l.saldo||0),0);
+  const usable=lots.filter(l=>!l.validade||l.validade>=today).reduce((a,l)=>a+Number(l.saldo||0),0);
+  if(tracked>=x.need-1e-9&&usable<x.need-1e-9)problems.push(x.it.nome+' (lotes válidos: '+usable.toFixed(3)+'; necessário: '+x.need.toFixed(3)+')');
+ }
+ return problems;
+}
+function findByName(arr,n){return arr.find(x=>x.nome===n)}
+function costRecipe(productName){let r=db.receitas.find(x=>x.produto===productName);if(!r)return null;let total=0;for(let item of r.items){let ing=findByName(db.insumos,item.nome);if(!ing)return null;total+=Number(item.qtd)*Number(ing.custoUnit||0)}return {total,unit:r.rendimento>0?total/r.rendimento:0,recipe:r}}
+const configs={
+clientes:{title:'Cliente',fields:[['nome','Nome','text'],['telefone','Telefone / WhatsApp','tel'],['endereco','Endereço','text'],['aniversario','Aniversário','date'],['obs','Observações','textarea']]},
+produtos:{title:'Produto',fields:[['nome','Nome do produto','text'],['categoria','Categoria','select:Bolos,Doces,Sobremesas,Combos,Outros'],['preco','Preço de venda (R$)','number'],['saldo','Saldo de produtos prontos','number'],['reservado','Unidades reservadas para pedidos','number'],['obs','Descrição','textarea']]},
+insumos:{title:'Insumo',fields:[['nome','Nome do insumo / embalagem','text'],['unidade','Unidade padrão','select:un,kg,g,L,ml,pacote,caixa'],['saldo','Saldo atual','number'],['minimo','Estoque mínimo','number'],['custoUnit','Custo por unidade padrão (R$)','number'],['validade','Validade mais próxima','date'],['fornecedor','Fornecedor habitual','text']]},
+receitas:{title:'Ficha técnica',fields:[['produto','Produto','selectProduto'],['rendimento','Rendimento (unidades produzidas)','number'],['ingredientes','Ingredientes: um por linha no formato Nome do insumo|quantidade usada','textarea'],['tempo','Tempo de produção (minutos)','number'],['obs','Modo de preparo / observações','textarea']]},
+compras:{title:'Compra de insumos',fields:[['data','Data da compra','date'],['insumo','Insumo cadastrado','selectInsumo'],['quantidade','Quantidade comprada (na unidade padrão)','number'],['valorTotal','Valor total pago (R$)','number'],['validade','Validade do lote','date'],['fornecedor','Fornecedor','text'],['obs','Observações / número da nota','textarea']]},
+pedidos:{title:'Pedido',fields:[['cliente','Cliente','selectCliente'],['data','Data do pedido','date'],['entrega','Data de entrega','date'],['itens','Itens: um por linha no formato Produto|quantidade','textarea'],['desconto','Desconto (R$)','number'],['pagamento','Forma de pagamento','select:Pix,Cartão,Dinheiro,Transferência,Outro'],['pago','Pagamento','select:Pendente,Pago'],['status','Status','select:Recebido,Confirmado,Em produção,Pronto,Saiu para entrega,Entregue,Cancelado'],['canal','Origem','select:WhatsApp,Instagram,Indicação,Outro'],['responsavel','Responsável pelo pedido','selectFuncionario'],['obs','Observações','textarea']]},
+producao:{title:'Registro de produção',fields:[['data','Data','date'],['produto','Produto','selectProduto'],['quantidade','Quantidade a produzir','number'],['responsavel','Responsável','text'],['perdas','Unidades perdidas nesta produção','number'],['obs','Observações','textarea']]},
+funcionarios:{title:'Funcionário',fields:[['nome','Nome','text'],['funcao','Função','select:Atendimento,Produção,Estoque,Entrega,Administração,Outro'],['telefone','Telefone','tel'],['ativo','Situação','select:Sim,Não'],['obs','Observações','textarea']]},
+checklists:{title:'Checklist operacional',fields:[['data','Data','date'],['tipo','Tipo de checklist','select:Abertura,Limpeza,Higiene,Fechamento,Equipamentos,Outro'],['responsavel','Responsável','selectFuncionario'],['itens','Itens conferidos: um por linha','textarea'],['resultado','Resultado','select:Concluído,Com pendências'],['pendencias','Pendências / ações necessárias','textarea']]},
+qualidade:{title:'Verificação de qualidade',fields:[['data','Data','date'],['responsavel','Responsável','selectFuncionario'],['area','Área / produto verificado','text'],['tipo','Tipo','select:Higiene,Temperatura,Validade,Apresentação,Embalagem,Outro'],['temperatura','Temperatura (°C, se aplicável)','number'],['resultado','Resultado','select:Conforme,Não conforme'],['acao','Ação corretiva / observação','textarea']]},
+ajustes:{title:'Ajuste de estoque',fields:[['data','Data','date'],['insumo','Insumo','selectInsumo'],['tipo','Tipo de movimentação','select:Entrada avulsa,Saída,Perda,Correção de saldo'],['quantidade','Quantidade','number'],['validade','Validade (para entrada)','date'],['motivo','Motivo / observação','text']]},
+despesas:{title:'Despesa',fields:[['data','Data','date'],['descricao','Descrição','text'],['categoria','Categoria','select:Despesa fixa,Insumos,Embalagens,Equipamentos,Entrega,Marketing,Taxas,Outros'],['valor','Valor (R$)','number'],['recorrencia','Recorrência','select:Única,Mensal'],['obs','Observações','textarea']]}
+};
+function selectOptions(type,val){let arr=type==='selectCliente'?db.clientes.map(x=>x.nome):type==='selectProduto'?db.produtos.map(x=>x.nome):type==='selectFuncionario'?db.funcionarios.filter(x=>x.ativo!=='Não').map(x=>x.nome):db.insumos.map(x=>x.nome);return `<option value="">Selecione</option>`+arr.map(x=>`<option ${x===val?'selected':''}>${esc(x)}</option>`).join('')}
+function openForm(mod,recordId=null){moduleNow=mod;editing=recordId;let rec=recordId?db[mod].find(x=>x.id===recordId):{};let c=configs[mod];document.getElementById('modalTitle').textContent=(recordId?'Editar ':'Cadastrar ')+c.title;document.getElementById('formHelp').textContent='';
+let formFields=c.fields;if(mod==='produtos')formFields=formFields.filter(([key])=>key!=='reservado');if(mod==='pedidos')formFields=formFields.filter(([key])=>key!=='status');if(mod==='pedidos'&&recordId&&orderTaskExists(recordId))formFields=formFields.filter(([key])=>!['cliente','data','entrega','itens','desconto'].includes(key));document.getElementById('fields').innerHTML=formFields.map(([key,label,type])=>{let v=rec?.[key]??(type==='date'?iso():'');let el='';
+if(type==='textarea')el=`<textarea name="${key}" ${key==='ingredientes'?'placeholder="Ex.: Farinha de trigo|0,5&#10;Leite condensado|2"':''}>${esc(v)}</textarea>`;
+else if(['selectCliente','selectProduto','selectInsumo','selectFuncionario'].includes(type))el=`<select name="${key}">${selectOptions(type,v)}</select>`;
+else if(type.startsWith('select:'))el=`<select name="${key}">${type.slice(7).split(',').map(x=>`<option ${x===v?'selected':''}>${esc(x)}</option>`).join('')}</select>`;
+else el=`<input name="${key}" type="${type}" ${type==='number'?'step="0.001" min="0"':''} value="${esc(v)}">`;
+return `<div class="field ${type==='textarea'?'full':''}"><label>${label}</label>${el}</div>`}).join('');
+if(mod==='receitas')document.getElementById('formHelp').textContent='Use exatamente o nome do insumo cadastrado e a mesma unidade padrão. Exemplo: Farinha de trigo|0,5 (se a unidade padrão for kg, informe 0,5 kg).';
+if(mod==='compras')document.getElementById('formHelp').textContent='A quantidade será somada ao saldo do insumo e o custo médio por unidade será recalculado. A compra também ficará registrada.';
+if(mod==='producao')document.getElementById('formHelp').textContent='A produção consome primeiro os lotes com validade mais próxima, usando a ficha técnica. Confira saldos e unidades.';
+if(mod==='checklists')document.getElementById('formHelp').textContent='Registre os itens conferidos, o responsável e as pendências. Para marcar vários itens, escreva um por linha.';
+if(mod==='qualidade')document.getElementById('formHelp').textContent='Registre o resultado da verificação e a ação corretiva quando houver não conformidade.';
+if(mod==='pedidos')document.getElementById('formHelp').textContent='Os preços dos produtos são usados para calcular o total. Formato dos itens: Produto|quantidade. Ex.: Bolo de chocolate|2.';
+document.getElementById('modal').classList.add('open')}
+function closeModal(){document.getElementById('modal').classList.remove('open')}
+function parseLines(s){return String(s||'').split(/\n/).map(x=>x.trim()).filter(Boolean).map(line=>{let p=line.split('|');return {nome:p[0].trim(),qtd:Number(String(p[1]||'0').replace(',','.'))}})}
+document.getElementById('form').addEventListener('submit',e=>{e.preventDefault();let o=Object.fromEntries(new FormData(e.target).entries());for(let k of ['preco','saldo','minimo','custoUnit','rendimento','tempo','quantidade','valorTotal','desconto','perdas','valor','temperatura'])if(k in o)o[k]=Number(String(o[k]||0).replace(',','.'));
+if(moduleNow==='receitas'){o.items=parseLines(o.ingredientes);if(!o.items.length||o.items.some(x=>!x.nome||x.qtd<=0)){alert('Informe ingredientes válidos, um por linha, no formato Nome|quantidade.');return}let missing=o.items.filter(x=>!findByName(db.insumos,x.nome));if(missing.length){alert('Cadastre primeiro estes insumos: '+missing.map(x=>x.nome).join(', '));return}}
+if(moduleNow==='compras'){let ing=findByName(db.insumos,o.insumo);if(!ing){alert('Cadastre o insumo antes de registrar a compra.');return}if(o.quantidade<=0||o.valorTotal<0){alert('Confira quantidade e valor.');return}let oldQty=Number(ing.saldo||0),oldCost=Number(ing.custoUnit||0);ing.custoUnit=(oldQty+o.quantidade)>0?((oldQty*oldCost)+(o.valorTotal))/(oldQty+o.quantidade):o.valorTotal/o.quantidade;ing.saldo=oldQty+o.quantidade;db.lotes.unshift({id:id(),insumo:ing.nome,entrada:o.quantidade,saldo:o.quantidade,validade:o.validade||'',data:o.data,fornecedor:o.fornecedor||'',custoUnit:o.valorTotal/o.quantidade,origem:'Compra'});db.movimentos.unshift({id:id(),data:o.data,tipo:'Compra / entrada',insumo:ing.nome,quantidade:o.quantidade,ref:'Compra '+(o.fornecedor||'')});if(o.validade)ing.validade=(!ing.validade||o.validade<ing.validade)?o.validade:ing.validade}
+if(moduleNow==='pedidos'){o.items=parseLines(o.itens);if(!o.items.length){alert('Adicione pelo menos um item no pedido.');return}let sum=0;for(let it of o.items){let p=findByName(db.produtos,it.nome);if(!p){alert('Produto não cadastrado: '+it.nome);return}if(it.qtd<=0){alert('Quantidade inválida em '+it.nome);return}sum+=Number(p.preco||0)*it.qtd}o.total=Math.max(0,sum-Number(o.desconto||0))}
+if(moduleNow==='producao'){let p=findByName(db.produtos,o.produto),r=db.receitas.find(x=>x.produto===o.produto);if(!p||!r){alert('Cadastre o produto e sua ficha técnica antes de registrar produção.');return}if(o.quantidade<=0||r.rendimento<=0||Number(o.perdas||0)>Number(o.quantidade)){alert('Confira quantidade, rendimento e perdas. As perdas não podem superar a produção.');return}let factor=o.quantidade/r.rendimento;let needs=r.items.map(it=>({it,ing:findByName(db.insumos,it.nome),need:it.qtd*factor}));let lack=needs.filter(x=>!x.ing||Number(x.ing.saldo||0)<x.need);if(lack.length){alert('Estoque insuficiente: '+lack.map(x=>x.it.nome+' (precisa '+x.need.toFixed(3)+')').join('; '));return}const expiredProblems=validateUsableLots(needs);if(expiredProblems.length){alert('Produção bloqueada: há estoque registrado apenas em lotes vencidos ou com saldo válido insuficiente: '+expiredProblems.join('; ')+'. Faça uma correção de inventário ou reponha o insumo.');return}needs.forEach(x=>{let remaining=x.need;let lots=db.lotes.filter(l=>l.insumo===x.it.nome&&Number(l.saldo||0)>0&&(!l.validade||l.validade>=iso())).sort((a,b)=>(a.validade||'9999-12-31').localeCompare(b.validade||'9999-12-31'));for(let lot of lots){if(remaining<=0)break;let used=Math.min(Number(lot.saldo),remaining);lot.saldo=Number(lot.saldo)-used;remaining-=used}x.ing.saldo=Math.max(0,Number(x.ing.saldo)-x.need);db.movimentos.unshift({id:id(),data:o.data,tipo:'Consumo produção',insumo:x.it.nome,quantidade:-x.need,ref:o.produto})});const goodQty=Math.max(0,Number(o.quantidade)-Number(o.perdas||0));p.saldo=Number(p.saldo||0)+goodQty;db.movimentos.unshift({id:id(),data:o.data,tipo:'Produto acabado',insumo:o.produto,quantidade:goodQty,ref:'Produção manual'});if(o.perdas>0)db.movimentos.unshift({id:id(),data:o.data,tipo:'Perda produção',insumo:o.produto,quantidade:-o.perdas,ref:'Produto acabado'})}
+
+if(moduleNow==='ajustes'){let ing=findByName(db.insumos,o.insumo);if(!ing){alert('Selecione um insumo cadastrado.');return}if((o.tipo==='Correção de saldo'&&Number(o.quantidade)<0)||(o.tipo!=='Correção de saldo'&&Number(o.quantidade)<=0)){alert(o.tipo==='Correção de saldo'?'O saldo corrigido não pode ser negativo.':'Informe uma quantidade maior que zero.');return}let q=Number(o.quantidade),type=o.tipo;if(type==='Entrada avulsa'){ing.saldo=Number(ing.saldo||0)+q;db.lotes.unshift({id:id(),insumo:ing.nome,entrada:q,saldo:q,validade:o.validade||'',data:o.data,fornecedor:'',custoUnit:Number(ing.custoUnit||0),origem:'Ajuste de entrada'});db.movimentos.unshift({id:id(),data:o.data,tipo:'Entrada avulsa',insumo:ing.nome,quantidade:q,ref:o.motivo||''})}else if(type==='Correção de saldo'){let delta=q-Number(ing.saldo||0);ing.saldo=q;db.movimentos.unshift({id:id(),data:o.data,tipo:'Correção de saldo',insumo:ing.nome,quantidade:delta,ref:o.motivo||'Contagem física'});let lotTotal=db.lotes.filter(l=>l.insumo===ing.nome).reduce((a,l)=>a+Number(l.saldo||0),0);if(q<lotTotal){let cut=lotTotal-q;let ls=db.lotes.filter(l=>l.insumo===ing.nome).sort((a,b)=>(b.validade||'').localeCompare(a.validade||''));for(let l of ls){let n=Math.min(cut,Number(l.saldo||0));l.saldo-=n;cut-=n;if(cut<=0)break}}else if(q>lotTotal){let add=q-lotTotal;db.lotes.unshift({id:id(),insumo:ing.nome,entrada:add,saldo:add,validade:o.validade||'',data:o.data,fornecedor:'',custoUnit:Number(ing.custoUnit||0),origem:'Correção de inventário'})}}else{if(Number(ing.saldo||0)<q){alert('Saldo insuficiente para esta saída/perda.');return}let remaining=q,lots=db.lotes.filter(l=>l.insumo===ing.nome&&Number(l.saldo||0)>0).sort((a,b)=>(a.validade||'9999-12-31').localeCompare(b.validade||'9999-12-31'));for(let l of lots){let used=Math.min(Number(l.saldo),remaining);l.saldo-=used;remaining-=used;if(remaining<=0)break}ing.saldo-=q;db.movimentos.unshift({id:id(),data:o.data,tipo:type,insumo:ing.nome,quantidade:-q,ref:o.motivo||''})}}
+
+if(editing){let ix=db[moduleNow].findIndex(x=>x.id===editing);if(moduleNow==='compras'||moduleNow==='producao'){alert('Para evitar divergência de estoque, compras e produções já lançadas não podem ser editadas. Exclua e lance novamente.');return}db[moduleNow][ix]={...db[moduleNow][ix],...o}}
+else {if(moduleNow==='pedidos'){o.status='Recebido';o.statusHistorico=[{status:'Recebido',data:new Date().toISOString()}]}if(moduleNow==='produtos')o.reservado=0;db[moduleNow].unshift({id:id(),createdAt:new Date().toISOString(),...o});}
+persist();closeModal()});
+function deleteRec(mod,rid){let rec=db[mod].find(x=>x.id===rid);if(!rec)return;if(['compras','producao'].includes(mod)){alert('Por segurança do estoque, este lançamento não pode ser excluído nesta versão. Registre um ajuste manual no cadastro do insumo ou produto.');return}if(mod==='pedidos'&&orderTaskExists(rid)){alert('Este pedido possui planejamento vinculado. Use Cancelar na Agenda para liberar reservas e preservar o histórico.');return}if(!confirm('Excluir este registro?'))return;db[mod]=db[mod].filter(x=>x.id!==rid);persist()}
+function editRec(mod,rid){openForm(mod,rid)}
+function table(mod,cols,search=''){let arr=db[mod]||[];if(search)arr=arr.filter(x=>JSON.stringify(x).toLowerCase().includes(search.toLowerCase()));let h=`<div class="tablewrap"><table><thead><tr>${cols.map(c=>`<th>${c[1]}</th>`).join('')}<th>Ações</th></tr></thead><tbody>`;
+if(!arr.length)h+=`<tr><td colspan="${cols.length+1}" class="empty">Nenhum registro cadastrado.</td></tr>`;
+else h+=arr.map(x=>`<tr>${cols.map(([k])=>`<td>${cell(mod,k,x)}</td>`).join('')}<td><div class="actions">${mod==='clientes'?`<button class="small" onclick="showCustomerHistory('${esc(x.nome).replace(/'/g,"\\'")}')">Histórico</button>`:''}<button class="mutedbtn small" onclick="editRec('${mod}','${x.id}')">Editar</button>${mod==='pedidos'&&!['Entregue','Cancelado'].includes(x.status)?`<button class="small" onclick="createProductionPlan('${x.id}')">Planejar</button>`:''}<button class="danger small" onclick="deleteRec('${mod}','${x.id}')">Excluir</button></div></td></tr>`).join('');
+return h+'</tbody></table></div>'}
+function cell(mod,k,x){let v=x[k];if(['preco','valor','valorTotal','total','custoUnit'].includes(k))return brl(v);if(['data','entrega','validade'].includes(k))return fmtDate(v);if(k==='status')return `<span class="badge ${v==='Entregue'?'ok':v==='Cancelado'?'bad':'warn'}">${esc(v||'—')}</span>`;if(k==='pago')return `<span class="badge ${v==='Pago'?'ok':'warn'}">${esc(v||'—')}</span>`;if(k==='saldo'&&mod==='insumos')return `<span class="badge ${Number(v)<=Number(x.minimo||0)?'bad':'ok'}">${Number(v||0).toLocaleString('pt-BR')}</span>`;if(k==='items'&&mod==='receitas')return esc((v||[]).map(i=>i.nome+' × '+i.qtd).join('; '));if(k==='items'&&mod==='pedidos')return esc((v||[]).map(i=>i.nome+' × '+i.qtd).join('; '));return esc(v??'—')}
+function stat(label,val,sub=''){return `<div class="stat"><small>${label}</small><strong>${val}</strong><em>${sub}</em></div>`}
+
+function parseOrderItems(order){return order.items||parseLines(order.itens||'')}
+function orderTaskExists(orderId){return db.ordensProducao.some(t=>t.pedidoId===orderId)}
+function createProductionPlan(orderId){
+ const order=db.pedidos.find(x=>x.id===orderId);if(!order)return;
+ if(orderTaskExists(orderId)){alert('Este pedido já possui uma ordem de produção vinculada.');return}
+ const items=parseOrderItems(order);if(!items.length){alert('O pedido não possui itens válidos.');return}
+ const tasks=[];
+ const prepared=[];
+ for(const item of items){
+   const product=findByName(db.produtos,item.nome);
+   if(!product){alert('Produto não encontrado: '+item.nome);return}
+   const qty=Number(item.qtd||0);if(qty<=0){alert('Quantidade inválida em '+item.nome);return}
+   const available=Math.max(0,Number(product.saldo||0)-Number(product.reservado||0));
+   const fromStock=Math.min(available,qty),toProduce=qty-fromStock;
+   if(toProduce>0&&!db.receitas.some(r=>r.produto===product.nome)){alert('Falta ficha técnica para produzir: '+product.nome+'. Cadastre a ficha técnica antes de planejar este pedido.');return}
+   prepared.push({product,qty,fromStock,toProduce});
+ }
+ for(const item of prepared){
+   item.product.reservado=Number(item.product.reservado||0)+item.qty;
+   if(item.toProduce>0)tasks.push({id:id(),pedidoId:orderId,cliente:order.cliente,produto:item.product.nome,quantidade:item.toProduce,data:order.entrega||order.data||iso(),status:'Pendente',criadoEm:new Date().toISOString(),reservadoDoEstoque:item.fromStock});
+   else tasks.push({id:id(),pedidoId:orderId,cliente:order.cliente,produto:item.product.nome,quantidade:0,data:order.entrega||order.data||iso(),status:'Atendido pelo estoque',criadoEm:new Date().toISOString(),reservadoDoEstoque:item.fromStock});
+ }
+ db.ordensProducao.push(...tasks);
+ order.workflow='Planejado';order.status='Confirmado';
+ persist();
+ alert('Planejamento criado. Confira a fila de produção.');
+}
+function completeProductionTask(taskId){
+ const task=db.ordensProducao.find(t=>t.id===taskId);if(!task||task.status!=='Pendente')return;
+ const product=findByName(db.produtos,task.produto),recipe=db.receitas.find(r=>r.produto===task.produto);
+ if(!product||!recipe){alert('Produto ou ficha técnica não encontrados.');return}
+ const factor=Number(task.quantidade)/Number(recipe.rendimento||0);
+ if(!factor||!Number.isFinite(factor)){alert('Rendimento inválido na ficha técnica.');return}
+ const needs=recipe.items.map(it=>({it,ing:findByName(db.insumos,it.nome),need:Number(it.qtd)*factor}));
+ const lack=needs.filter(x=>!x.ing||Number(x.ing.saldo||0)<x.need);
+ if(lack.length){alert('Estoque insuficiente para '+task.produto+': '+lack.map(x=>x.it.nome+' (precisa '+x.need.toFixed(3)+')').join('; '));return}
+ const expiredProblems=validateUsableLots(needs);if(expiredProblems.length){alert('Produção bloqueada: '+expiredProblems.join('; ')+'. Existem lotes vencidos ou saldo válido insuficiente. Faça uma correção de inventário ou reponha o insumo.');return}
+ needs.forEach(x=>{
+   let remaining=x.need;
+   const lots=db.lotes.filter(l=>l.insumo===x.it.nome&&Number(l.saldo||0)>0&&(!l.validade||l.validade>=iso())).sort((a,b)=>(a.validade||'9999-12-31').localeCompare(b.validade||'9999-12-31'));
+   for(const lot of lots){if(remaining<=0)break;const used=Math.min(Number(lot.saldo),remaining);lot.saldo-=used;remaining-=used}
+   x.ing.saldo=Math.max(0,Number(x.ing.saldo)-x.need);
+   db.movimentos.unshift({id:id(),data:iso(),tipo:'Consumo produção de pedido',insumo:x.it.nome,quantidade:-x.need,ref:'Pedido '+(task.pedidoId||'')});
+ });
+ product.saldo=Number(product.saldo||0)+Number(task.quantidade);
+ task.status='Concluída';task.concluidaEm=new Date().toISOString();
+ db.producao.unshift({id:id(),data:iso(),produto:task.produto,quantidade:task.quantidade,perdas:0,responsavel:'Produção vinculada ao pedido',pedidoId:task.pedidoId,ordemId:task.id});
+ db.movimentos.unshift({id:id(),data:iso(),tipo:'Produto acabado',insumo:task.produto,quantidade:Number(task.quantidade),ref:'Pedido '+task.pedidoId});
+ updateOrderWorkflow(task.pedidoId);persist();
+}
+function updateOrderWorkflow(orderId){
+ const order=db.pedidos.find(x=>x.id===orderId);if(!order)return;
+ const tasks=db.ordensProducao.filter(t=>t.pedidoId===orderId);
+ if(tasks.length&&tasks.every(t=>['Concluída','Atendido pelo estoque'].includes(t.status))){order.workflow='Pronto';if(!['Saiu para entrega','Entregue','Cancelado'].includes(order.status))order.status='Pronto'}
+ else if(tasks.length)order.workflow='Em produção';
+}
+function cancelOrder(orderId){
+ const order=db.pedidos.find(x=>x.id===orderId);if(!order||order.status==='Cancelado')return;
+ if(['Saiu para entrega','Entregue'].includes(order.status)){alert('Este pedido já saiu para entrega ou foi entregue. Não pode ser cancelado por este fluxo.');return}
+ if(!confirm('Cancelar este pedido? As quantidades reservadas serão liberadas. Produtos já produzidos continuarão no estoque.'))return;
+ for(const item of parseOrderItems(order)){const product=findByName(db.produtos,item.nome);if(product)product.reservado=Math.max(0,Number(product.reservado||0)-Number(item.qtd||0))}
+ db.ordensProducao.filter(t=>t.pedidoId===orderId&&t.status==='Pendente').forEach(t=>{t.status='Cancelada';t.canceladaEm=new Date().toISOString()});
+ order.status='Cancelado';order.workflow='Cancelado';order.statusHistorico=order.statusHistorico||[];order.statusHistorico.unshift({status:'Cancelado',data:new Date().toISOString()});persist();
+}
+function advanceOrder(orderId){
+ const order=db.pedidos.find(x=>x.id===orderId);if(!order)return;
+ const steps=['Recebido','Confirmado','Em produção','Pronto','Saiu para entrega','Entregue'];
+ const current=steps.indexOf(order.status||'Recebido');
+ const next=steps[Math.min(current+1,steps.length-1)];
+ if(next==='Em produção'&&!orderTaskExists(orderId)){alert('Gere o planejamento do pedido antes de iniciar a produção.');return}
+ if(next==='Pronto'){
+   const tasks=db.ordensProducao.filter(t=>t.pedidoId===orderId);
+   if(tasks.some(t=>t.status==='Pendente')){alert('Ainda existem itens pendentes na fila de produção.');return}
+ }
+ if(next==='Saiu para entrega'){
+   const items=parseOrderItems(order);
+   for(const it of items){const p=findByName(db.produtos,it.nome);if(!p||Number(p.saldo||0)<Number(it.qtd||0)){alert('Saldo de produto acabado insuficiente para '+it.nome+'. Conclua a produção ou ajuste o estoque.');return}}
+ }
+ if(next==='Entregue'){
+   const items=parseOrderItems(order);
+   for(const it of items){const p=findByName(db.produtos,it.nome);if(!p||Number(p.saldo||0)<Number(it.qtd||0)){alert('Não há saldo suficiente para concluir a entrega de '+it.nome+'.');return}}
+   for(const it of items){const p=findByName(db.produtos,it.nome);p.saldo=Number(p.saldo)-Number(it.qtd);p.reservado=Math.max(0,Number(p.reservado||0)-Number(it.qtd));db.movimentos.unshift({id:id(),data:iso(),tipo:'Saída por entrega',insumo:p.nome,quantidade:-Number(it.qtd),ref:'Pedido '+orderId})}
+ }
+ order.status=next;
+ if(next==='Saiu para entrega'||next==='Entregue')db.entregas.unshift({id:id(),pedidoId:order.id,cliente:order.cliente,dataHora:new Date().toISOString(),status:next,responsavel:order.responsavel||''});
+ order.statusHistorico=order.statusHistorico||[];order.statusHistorico.unshift({status:next,data:new Date().toISOString()});
+ persist();
+}
+
+function showCustomerHistory(customerName){
+ const orders=db.pedidos.filter(o=>o.cliente===customerName).sort((a,b)=>(b.data||'').localeCompare(a.data||''));
+ const total=orders.filter(o=>o.status==='Entregue').reduce((a,o)=>a+Number(o.total||0),0);
+ const list=orders.length?orders.map(o=>`${fmtDate(o.data)} • ${o.status} • ${brl(o.total)} • ${(parseOrderItems(o).map(i=>i.nome+' × '+i.qtd)).join(', ')}`).join('\n'):'Nenhum pedido registrado.';
+ alert(`Histórico de ${customerName}\nPedidos: ${orders.length}\nTotal entregue: ${brl(total)}\n\n${list}`);
+}
+function renderDeliveryHistory(){
+ const el=document.getElementById('deliveryHistory');if(!el)return;
+ const rows=db.entregas.slice(0,80);
+ el.innerHTML=rows.length?`<div class="tablewrap"><table><thead><tr><th>Data/hora</th><th>Pedido</th><th>Cliente</th><th>Evento</th><th>Responsável</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${new Date(x.dataHora).toLocaleString('pt-BR')}</td><td>${esc(x.pedidoId)}</td><td>${esc(x.cliente)}</td><td><span class="badge ${x.status==='Entregue'?'ok':'warn'}">${esc(x.status)}</span></td><td>${esc(x.responsavel||'—')}</td></tr>`).join('')}</tbody></table></div>`:'<div class="empty">As saídas e entregas confirmadas aparecerão aqui.</div>';
+}
+function renderAgenda(){
+ const orders=[...db.pedidos].filter(o=>!['Entregue','Cancelado'].includes(o.status)).sort((a,b)=>(a.entrega||'9999').localeCompare(b.entrega||'9999'));
+ let h='<div class="tablewrap"><table><thead><tr><th>Entrega</th><th>Cliente</th><th>Itens</th><th>Status</th><th>Próxima ação</th></tr></thead><tbody>';
+ if(!orders.length)h+='<tr><td colspan="5" class="empty">Nenhuma entrega pendente.</td></tr>';
+ for(const o of orders){
+   const items=parseOrderItems(o).map(i=>esc(i.nome)+' × '+i.qtd).join('<br>');
+   const label= !orderTaskExists(o.id)?'Planejar produção':o.status==='Pronto'?'Preparar saída':o.status==='Saiu para entrega'?'Confirmar entrega':'Avançar status';
+   const action=!orderTaskExists(o.id)?`<button class="small" onclick="createProductionPlan('${o.id}')">Planejar</button>`:`<button class="small" onclick="advanceOrder('${o.id}')">${label}</button>`;
+   const cancelAction=!['Saiu para entrega','Entregue','Cancelado'].includes(o.status)?` <button class="danger small" onclick="cancelOrder('${o.id}')">Cancelar</button>`:'';
+   h+=`<tr><td>${fmtDate(o.entrega)}</td><td>${esc(o.cliente||'—')}</td><td>${items}</td><td><span class="badge warn">${esc(o.status||'Recebido')}</span></td><td>${action}${cancelAction}</td></tr>`;
+ }
+ h+='</tbody></table></div>';document.getElementById('agendaContent').innerHTML=h;
+}
+function renderProductionQueue(){
+ const tasks=[...db.ordensProducao].sort((a,b)=>(a.data||'').localeCompare(b.data||''));
+ let h='<div class="tablewrap"><table><thead><tr><th>Prazo</th><th>Pedido</th><th>Cliente</th><th>Produto</th><th>Quantidade</th><th>Status</th><th>Ação</th></tr></thead><tbody>';
+ if(!tasks.length)h+='<tr><td colspan="7" class="empty">Nenhuma ordem de produção criada a partir de pedidos.</td></tr>';
+ tasks.forEach(t=>{let order=db.pedidos.find(o=>o.id===t.pedidoId);h+=`<tr><td>${fmtDate(t.data)}</td><td>${esc(order?.id||'—')}</td><td>${esc(t.cliente||'—')}</td><td>${esc(t.produto)}</td><td>${t.quantidade}</td><td><span class="badge ${t.status==='Concluída'||t.status==='Atendido pelo estoque'?'ok':t.status==='Cancelada'?'bad':'warn'}">${esc(t.status)}</span></td><td>${t.status==='Pendente'?`<button class="small" onclick="completeProductionTask('${t.id}')">Concluir produção</button>`:'—'}</td></tr>`});
+ h+='</tbody></table></div>';document.getElementById('productionQueue').innerHTML=h;
+}
+function renderAll(){
+let m=monthNow(),del=db.pedidos.filter(x=>deliveredDate(x).startsWith(m)&&x.status==='Entregue'),sales=del.reduce((a,x)=>a+Number(x.total||0),0),pending=db.pedidos.filter(x=>!['Entregue','Cancelado'].includes(x.status)).length,low=db.insumos.filter(x=>Number(x.saldo||0)<=Number(x.minimo||0)).length,expenses=db.despesas.filter(x=>(x.data||'').startsWith(m)).reduce((a,x)=>a+Number(x.valor||0),0),expired=db.insumos.filter(x=>x.validade&&x.validade<=iso()).length;
+document.getElementById('dateLabel').textContent=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+const today=iso(),ordersToday=db.pedidos.filter(x=>x.entrega===today&&!['Entregue','Cancelado'].includes(x.status)).length;
+const pendingTasks=db.ordensProducao.filter(x=>x.status==='Pendente');
+const expiring=db.lotes.filter(x=>Number(x.saldo||0)>0&&x.validade&&x.validade>=today&&Math.ceil((new Date(x.validade+'T12:00:00')-new Date(today+'T12:00:00'))/86400000)<=30);
+const overdue=db.pedidos.filter(x=>x.entrega&&x.entrega<today&&!['Entregue','Cancelado'].includes(x.status)).length;
+document.getElementById('dashStats').innerHTML=stat('Pedidos em aberto',pending,'Aguardando conclusão')+stat('Entregas para hoje',ordersToday,'Pedidos com entrega hoje')+stat('Itens na fila de produção',pendingTasks.length,'Tarefas ainda pendentes')+stat('Estoque crítico',low,'Insumos no mínimo ou abaixo')+stat('Validades próximas',expiring.length,'Lotes vencendo em até 30 dias')+stat('Pedidos atrasados',overdue,'Entrega prevista já passou')+stat('Vendas no mês',brl(sales),del.length+' pedidos entregues')+stat('Despesas no mês',brl(expenses),'Lançamentos informados');
+let alertItems=[];
+db.insumos.filter(x=>Number(x.saldo||0)<=Number(x.minimo||0)).forEach(x=>alertItems.push(`<div class="attention-item"><span><b>Estoque baixo:</b> ${esc(x.nome)} — ${Number(x.saldo||0)} ${esc(x.unidade||'')}</span><button class="small mutedbtn" onclick="navigateTo('insumos')">Ver estoque</button></div>`));
+db.lotes.filter(x=>Number(x.saldo||0)>0&&x.validade&&x.validade<today).forEach(x=>alertItems.push(`<div class="attention-item"><span><b>Vencido:</b> ${esc(x.insumo)} — ${fmtDate(x.validade)}</span><button class="small mutedbtn" onclick="navigateTo('lotes')">Ver lote</button></div>`));
+expiring.forEach(x=>alertItems.push(`<div class="attention-item"><span><b>Validade próxima:</b> ${esc(x.insumo)} — ${fmtDate(x.validade)}</span><button class="small mutedbtn" onclick="navigateTo('lotes')">Ver lote</button></div>`));
+db.pedidos.filter(x=>x.entrega&&x.entrega<today&&!['Entregue','Cancelado'].includes(x.status)).forEach(x=>alertItems.push(`<div class="attention-item"><span><b>Pedido atrasado:</b> ${esc(x.cliente)} — entrega ${fmtDate(x.entrega)}</span><button class="small mutedbtn" onclick="navigateTo('pedidos')">Ver pedido</button></div>`));
+document.getElementById('alerts').innerHTML=alertItems.join('')||'<div class="empty">Nenhum alerta no momento. Tudo em ordem!</div>';
+document.getElementById('dashProduction').innerHTML=pendingTasks.length?pendingTasks.slice(0,7).map(t=>`<div class="attention-item"><span><b>${esc(t.produto)}</b><br><small>${esc(t.cliente||'Pedido')} • ${fmtDate(t.data)} • qtd. ${t.quantidade}</small></span><button class="small" onclick="navigateTo('producao')">Abrir</button></div>`).join(''):'<div class="empty">Nenhuma tarefa pendente de produção.</div>';
+document.getElementById('recent').innerHTML=db.pedidos.length?table('pedidos',[['cliente','Cliente'],['entrega','Entrega'],['total','Total'],['status','Status']]).replace(/<th>Ações<\/th>/,'<th>Status</th>').replace(/<td><div class="actions">.*?<\/div><\/td>/g,''):'<div class="empty">Os pedidos recentes aparecerão aqui.</div>';
+const cols={pedidos:[['cliente','Cliente'],['data','Pedido'],['entrega','Entrega'],['items','Itens'],['total','Total'],['pago','Pagamento'],['status','Status']],clientes:[['nome','Nome'],['telefone','Telefone'],['endereco','Endereço']],produtos:[['nome','Produto'],['categoria','Categoria'],['preco','Preço'],['saldo','Prontos']],insumos:[['nome','Insumo'],['saldo','Saldo'],['unidade','Unidade'],['custoUnit','Custo/un.'],['minimo','Mínimo'],['validade','Validade']],receitas:[['produto','Produto'],['rendimento','Rendimento'],['items','Ingredientes']],compras:[['data','Data'],['insumo','Insumo'],['quantidade','Quantidade'],['valorTotal','Total'],['fornecedor','Fornecedor'],['validade','Validade']],producao:[['data','Data'],['produto','Produto'],['quantidade','Produzido'],['perdas','Perdas'],['responsavel','Responsável']],despesas:[['data','Data'],['descricao','Descrição'],['categoria','Categoria'],['valor','Valor'],['recorrencia','Recorrência']],funcionarios:[['nome','Nome'],['funcao','Função'],['telefone','Telefone'],['ativo','Ativo']],checklists:[['data','Data'],['tipo','Checklist'],['responsavel','Responsável'],['resultado','Resultado'],['pendencias','Pendências']],qualidade:[['data','Data'],['responsavel','Responsável'],['area','Área / produto'],['tipo','Verificação'],['temperatura','Temperatura'],['resultado','Resultado'],['acao','Ação corretiva']]};
+Object.keys(cols).forEach(k=>{let el=document.getElementById('tbl-'+k);if(el)el.innerHTML=table(k,cols[k])});
+let lotHtml=`<div class="tablewrap"><table><thead><tr><th>Insumo</th><th>Origem</th><th>Entrada</th><th>Saldo</th><th>Validade</th><th>Status</th></tr></thead><tbody>`;let lotList=[...db.lotes].sort((a,b)=>(a.validade||'9999-12-31').localeCompare(b.validade||'9999-12-31'));if(!lotList.length)lotHtml+='<tr><td colspan="6" class="empty">Nenhum lote registrado. As próximas compras criarão lotes automaticamente.</td></tr>';else lotList.forEach(l=>{let days=l.validade?Math.ceil((new Date(l.validade+'T12:00:00')-new Date(iso()+'T12:00:00'))/86400000):null;let status=!Number(l.saldo)?'Esgotado':days===null?'Sem validade':days<0?'Vencido':days<=30?'Vence em até 30 dias':'Em dia';let cls=days!==null&&days<0?'bad':days!==null&&days<=30?'warn':'ok';lotHtml+=`<tr><td>${esc(l.insumo)}</td><td>${esc(l.origem||'—')}</td><td>${fmtDate(l.data)}</td><td>${Number(l.saldo||0).toLocaleString('pt-BR')}</td><td>${fmtDate(l.validade)}</td><td><span class="badge ${cls}">${status}</span></td></tr>`});lotHtml+='</tbody></table></div>';document.getElementById('tbl-lotes').innerHTML=lotHtml;
+let movHtml=`<div class="tablewrap"><table><thead><tr><th>Data</th><th>Tipo</th><th>Insumo / produto</th><th>Quantidade (+/-)</th><th>Referência</th></tr></thead><tbody>`;if(!db.movimentos.length)movHtml+='<tr><td colspan="5" class="empty">Nenhuma movimentação registrada.</td></tr>';else movHtml+=db.movimentos.map(v=>`<tr><td>${fmtDate(v.data)}</td><td>${esc(v.tipo)}</td><td>${esc(v.insumo)}</td><td><span class="badge ${Number(v.quantidade)<0?'warn':'ok'}">${Number(v.quantidade)>0?'+':''}${Number(v.quantidade).toLocaleString('pt-BR')}</span></td><td>${esc(v.ref||'—')}</td></tr>`).join('');movHtml+='</tbody></table></div>';document.getElementById('tbl-movimentos').innerHTML=movHtml;
+let productRows=db.produtos.map(p=>{let c=costRecipe(p.nome);return `<tr><td>${esc(p.nome)}</td><td>${brl(p.preco)}</td><td>${c?brl(c.unit):'Sem ficha'}</td><td>${c?brl(Number(p.preco||0)-c.unit):'—'}</td><td>${p.saldo||0}</td></tr>`}).join('');
+let costTotals=db.produtos.reduce((a,p)=>{let c=costRecipe(p.nome);return a+(c?c.unit:0)},0);
+document.getElementById('reportStats').innerHTML=stat('Vendas entregues no mês',brl(sales))+stat('Despesas do mês',brl(expenses))+stat('Resultado parcial',brl(sales-expenses),'Sem impostos/taxas não lançados')+stat('Produções registradas',db.producao.filter(x=>(x.data||'').startsWith(m)).length,'Neste mês');
+document.getElementById('reportFinance').innerHTML=`<div class="kpi-line"><span>Vendas de pedidos entregues</span><b>${brl(sales)}</b></div><div class="kpi-line"><span>Despesas registradas</span><b>${brl(expenses)}</b></div><div class="kpi-line"><span>Resultado simples</span><b>${brl(sales-expenses)}</b></div><p class="help">Resultado parcial: considera somente pedidos marcados como entregues e despesas lançadas. Não substitui contabilidade e não inclui automaticamente compras como despesa, para evitar duplicidade.</p><div class="tablewrap"><table><thead><tr><th>Produto</th><th>Venda</th><th>Custo unitário estimado</th><th>Margem bruta estimada</th><th>Prontos</th></tr></thead><tbody>${productRows||'<tr><td colspan="5" class="empty">Cadastre produtos e fichas técnicas.</td></tr>'}</tbody></table></div>`;
+let produced=db.producao.filter(x=>(x.data||'').startsWith(m)).reduce((a,x)=>a+Number(x.quantidade||0),0),loss=db.producao.filter(x=>(x.data||'').startsWith(m)).reduce((a,x)=>a+Number(x.perdas||0),0);
+document.getElementById('reportOps').innerHTML=`<div class="kpi-line"><span>Unidades produzidas no mês</span><b>${produced}</b></div><div class="kpi-line"><span>Unidades perdidas registradas</span><b>${loss}</b></div><div class="kpi-line"><span>Percentual de perdas</span><b>${produced?((loss/produced)*100).toFixed(1).replace('.',',')+'%':'—'}</b></div><div class="kpi-line"><span>Insumos cadastrados</span><b>${db.insumos.length}</b></div>`;
+renderAgenda();renderProductionQueue();renderDeliveryHistory();
+}
+function navigateTo(page){document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.p===page));document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id==='p-'+page));toggleMenu(false);window.scrollTo({top:0,behavior:'smooth'});}
+function toggleMenu(force){const sb=document.getElementById('sidebar'),bd=document.getElementById('sideBackdrop');const open=typeof force==='boolean'?force:!sb.classList.contains('open');sb.classList.toggle('open',open);bd.classList.toggle('open',open);}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>navigateTo(b.dataset.p)));
+function exportBackup(){let blob=new Blob([JSON.stringify({app:'KEJ Gestão',version:12,exportedAt:new Date().toISOString(),data:db},null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='backup-kej-'+iso()+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+function importBackup(ev){let f=ev.target.files[0];if(!f)return;if(f.size>15*1024*1024){alert('O arquivo de backup é maior que 15 MB.');ev.target.value='';return}let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result),d=x.data||x;if(!d||typeof d!=='object'||Array.isArray(d))throw new Error('Formato inválido');const required=Object.keys(blank).filter(k=>k!=='config');for(const k of required)if(k in d&&!Array.isArray(d[k]))throw new Error('Estrutura inválida');if(d.config!==undefined&&(!d.config||typeof d.config!=='object'||Array.isArray(d.config)))throw new Error('Configuração inválida');if(!confirm('Isso substituirá todos os dados atuais deste aparelho. Deseja continuar?'))return;const clone=typeof structuredClone==='function'?structuredClone(d):JSON.parse(JSON.stringify(d));db={...JSON.parse(JSON.stringify(blank)),...clone,config:{...JSON.parse(JSON.stringify(defaultBusinessConfig)),...(clone.config||{}),modules:{...defaultBusinessConfig.modules,...((clone.config||{}).modules||{})}}};for(const k of required)if(!Array.isArray(db[k]))db[k]=[];persist();alert('Backup restaurado com segurança.')}catch(e){alert('Backup inválido ou incompatível. Os dados atuais foram preservados.')}finally{ev.target.value=''}};r.readAsText(f)}
+function exportCSV(){let rows=[['Produto','Preço de venda','Custo unitário estimado','Margem bruta estimada','Saldo']];db.produtos.forEach(p=>{let c=costRecipe(p.nome);rows.push([p.nome,p.preco,c?c.unit:'',c?Number(p.preco||0)-c.unit:'',p.saldo||0])});let csv=rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')).join('\n'),a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));a.download='relatorio-produtos-doceria.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+
+const modulePages={production:['producao'],materials:['produtos','insumos','compras','movimentos'],lots:['lotes'],recipes:['receitas'],team:['funcionarios'],agenda:['agenda'],checklists:['checklists'],quality:['qualidade']};
+function populateBusinessConfig(){
+ const c=db.config||defaultBusinessConfig;
+ const name=document.getElementById('businessName'),segment=document.getElementById('businessSegment');
+ if(name)name.value=c.name||'';if(segment)segment.value=c.segment||'geral';
+ const ids={production:'modProduction',materials:'modMaterials',lots:'modLots',recipes:'modRecipes',team:'modTeam',agenda:'modAgenda',checklists:'modChecklists',quality:'modQuality'};
+ Object.entries(ids).forEach(([k,id])=>{const el=document.getElementById(id);if(el)el.checked=!!c.modules[k]});
+}
+
+function suggestModulesBySegment(){
+ const segment=document.getElementById('businessSegment')?.value||'geral';
+ const presets={
+  geral:{production:true,materials:true,lots:true,recipes:true,team:true,agenda:true,checklists:true,quality:true},
+  varejo:{production:false,materials:true,lots:false,recipes:false,team:false,agenda:true,checklists:false,quality:false},
+  alimentacao:{production:true,materials:true,lots:true,recipes:true,team:false,agenda:true,checklists:true,quality:true},
+  servicos:{production:false,materials:false,lots:false,recipes:false,team:true,agenda:true,checklists:true,quality:false},
+  fabricacao:{production:true,materials:true,lots:true,recipes:true,team:true,agenda:false,checklists:true,quality:true},
+  distribuicao:{production:false,materials:true,lots:true,recipes:false,team:true,agenda:true,checklists:true,quality:false},
+  outro:{production:false,materials:true,lots:false,recipes:false,team:false,agenda:true,checklists:false,quality:false}
+ };
+ const ids={production:'modProduction',materials:'modMaterials',lots:'modLots',recipes:'modRecipes',team:'modTeam',agenda:'modAgenda',checklists:'modChecklists',quality:'modQuality'};
+ Object.entries(presets[segment]||presets.geral).forEach(([k,val])=>{const el=document.getElementById(ids[k]);if(el)el.checked=val});
+}
+
+function saveBusinessConfig(){
+ const ids={production:'modProduction',materials:'modMaterials',lots:'modLots',recipes:'modRecipes',team:'modTeam',agenda:'modAgenda',checklists:'modChecklists',quality:'modQuality'};
+ const modules={};Object.entries(ids).forEach(([k,id])=>modules[k]=!!document.getElementById(id)?.checked);
+ db.config={name:document.getElementById('businessName').value.trim(),segment:document.getElementById('businessSegment').value,modules};
+ localStorage.setItem(KEY,JSON.stringify(db));applyBusinessConfig();
+ const h=document.querySelector('.brand h1');if(h)h.textContent=db.config.name?('KEJ Gestão · '+db.config.name):'KEJ Gestão';
+ alert('Configuração salva neste aparelho. Nenhum cadastro ou movimento foi apagado.');
+}
+function resetBusinessConfig(){
+ if(!confirm('Restaurar todos os módulos opcionais? Seus registros serão mantidos.'))return;
+ db.config={...defaultBusinessConfig,modules:{...defaultBusinessConfig.modules}};
+ localStorage.setItem(KEY,JSON.stringify(db));populateBusinessConfig();applyBusinessConfig();
+}
+function applyBusinessConfig(){
+ const modules=db.config?.modules||defaultBusinessConfig.modules;
+ Object.entries(modulePages).forEach(([key,pages])=>pages.forEach(page=>{
+  const tab=document.querySelector('.tab[data-p="'+page+'"]'),section=document.getElementById('p-'+page);
+  const visible=modules[key]!==false;if(tab)tab.hidden=!visible;if(section)section.hidden=!visible;
+ }));
+ const current=document.querySelector('.page.active');
+ if(current&&current.hidden)navigateTo('inicio');
+ const brand=document.querySelector('.brand h1');if(brand)brand.textContent=db.config?.name?('KEJ Gestão · '+db.config.name):'KEJ Gestão';
+}
+
+
+// KEJ Atualizador V8.1.6 — recuperação segura da seleção SAF.
+// Não usa localStorage nem toca no banco operacional da doceria.
+let kejUpdaterApi=null, kejUpdaterSelected=false, kejUpdaterRestoreStarted=false;
+function kejResolveUpdater(){
+ kejUpdaterApi=window.KEJUpdaterAvailable===true?window.KEJUpdater:null;
+ const native=!!kejUpdaterApi;
+ const status=document.getElementById('updaterNativeStatus');
+ if(status){
+  status.className='updater-status '+(native?'good':'warn');
+  status.textContent=native
+   ?'Componente KEJUpdater encontrado. O seletor e a inspeção estão disponíveis neste APK.'
+   :'Componente nativo indisponível. Abra esta tela no APK Android compilado com o plugin KEJUpdater.';
+ }
+ const choose=document.getElementById('updaterChooseBtn');
+ if(choose)choose.disabled=!native;
+ const inspect=document.getElementById('updaterInspectBtn');
+ if(inspect)inspect.disabled=!native||!kejUpdaterSelected;
+ const clear=document.getElementById('updaterClearBtn');
+ if(clear)clear.disabled=!native;
+ return native;
+}
+window.addEventListener('kej-updater-ready',()=>{
+ if(kejResolveUpdater())kejRestoreSelectedPackage();
+});
+async function kejRestoreSelectedPackage(){
+ if(kejUpdaterRestoreStarted||!kejResolveUpdater())return;
+ kejUpdaterRestoreStarted=true;
+ try{
+  const result=await kejUpdaterApi.getSelectedPackage();
+  kejUpdaterSelected=!!result?.selected&&result.permissionPersisted===true;
+  if(kejUpdaterSelected){
+   kejSetStatus('updaterSelected',
+    'Pacote recuperado: '+(result.name||'arquivo ZIP')+' • acesso persistente confirmado',
+    'good');
+   kejSetStatus('updaterResult',
+    'Seleção recuperada após reabrir o aplicativo. Execute a inspeção quando estiver pronto.');
+  }else{
+   kejSetStatus('updaterSelected',
+    'Nenhum pacote recuperável. Selecione o ZIP novamente e conceda acesso persistente.',
+    'warn');
+  }
+  const inspect=document.getElementById('updaterInspectBtn');
+  if(inspect)inspect.disabled=!kejUpdaterSelected;
+ }catch(error){
+  kejUpdaterSelected=false;
+  kejSetStatus('updaterSelected',
+   'Não foi possível recuperar a seleção: '+(error?.message||String(error)),
+   'warn');
+  const inspect=document.getElementById('updaterInspectBtn');
+  if(inspect)inspect.disabled=true;
+ }
+}
+function kejSetStatus(id,message,kind=''){
+ const el=document.getElementById(id);if(!el)return;
+ el.className='updater-status'+(kind?' '+kind:'');
+ el.textContent=message;
+}
+async function kejChoosePackage(){
+ if(!kejResolveUpdater())return;
+ const btn=document.getElementById('updaterChooseBtn');
+ btn.disabled=true;
+ try{
+  const result=await kejUpdaterApi.choosePackage();
+  kejUpdaterSelected=!!result?.selected;
+  kejSetStatus('updaterSelected',
+   kejUpdaterSelected
+    ?('Pacote selecionado: '+(result.name||'arquivo ZIP')+
+      (result.permissionPersisted?' • acesso persistente concedido':' • acesso válido nesta sessão; persistência não concedida'))
+    :'Nenhum pacote selecionado.',
+   kejUpdaterSelected?'good':'warn');
+  document.getElementById('updaterInspectBtn').disabled=!kejUpdaterSelected;
+  kejSetStatus('updaterResult','Pacote selecionado. Execute a inspeção quando estiver pronto.');
+ }catch(error){
+  kejUpdaterSelected=false;
+  document.getElementById('updaterInspectBtn').disabled=true;
+  kejSetStatus('updaterSelected','Não foi possível selecionar o pacote: '+(error?.message||String(error)),'warn');
+ }finally{btn.disabled=!kejUpdaterApi}
+}
+async function kejInspectPackage(){
+ if(!kejResolveUpdater()||!kejUpdaterSelected)return;
+ const btn=document.getElementById('updaterInspectBtn');
+ btn.disabled=true;
+ kejSetStatus('updaterResult','Inspecionando o pacote em fluxo. Aguarde…');
+ try{
+  const result=await kejUpdaterApi.inspectAndStage({
+   maxExtractedBytes:256*1024*1024,
+   maxEntries:10000
+  });
+  const lines=[
+   'Preparação concluída — não instalada.',
+   'Entradas: '+(result.entries??'—'),
+   'Bytes extraídos: '+(result.bytesWritten??'—'),
+   'SHA-256 do fluxo: '+(result.streamDigest??'—'),
+   'Permissão persistente: '+(result.permissionPersisted?'sim':'não'),
+   'Limpeza da staging anterior pendente: '+(result.previousCleanupPending?'sim':'não'),
+   result.warning||''
+  ].filter(Boolean);
+  kejSetStatus('updaterResult',lines.join('\n'),'good');
+  document.getElementById('updaterClearBtn').disabled=false;
+ }catch(error){
+  kejSetStatus('updaterResult','Falha na inspeção: '+(error?.message||String(error)),'warn');
+ }finally{btn.disabled=!kejUpdaterSelected}
+}
+async function kejClearStaging(){
+ if(!kejResolveUpdater())return;
+ if(!confirm('Limpar os arquivos preparados pelo KEJ Atualizador? Isso não afeta os cadastros ou movimentos da doceria.'))return;
+ const btn=document.getElementById('updaterClearBtn');btn.disabled=true;
+ try{
+  const result=await kejUpdaterApi.clearStaging();
+  if(result?.cleared){
+   kejSetStatus('updaterResult','Área de preparação limpa. Os dados operacionais do KEJ Gestão não foram alterados.','good');
+   btn.disabled=true;
+  }else{
+   kejSetStatus('updaterResult','A limpeza não foi concluída integralmente. Tente novamente.','warn');
+   btn.disabled=false;
+  }
+ }catch(error){
+  kejSetStatus('updaterResult','Falha ao limpar: '+(error?.message||String(error)),'warn');
+  btn.disabled=false;
+ }
+}
+
+populateBusinessConfig();applyBusinessConfig();renderAll();
+</script></body></html>

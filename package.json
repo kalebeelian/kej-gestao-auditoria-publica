@@ -1,0 +1,17 @@
+{
+  "name": "kej-gestao-atualizador-integracao",
+  "version": "8.1.6",
+  "private": true,
+  "scripts": {
+    "android:prepare": "node scripts/prepare-android.mjs",
+    "android:sync": "npx cap sync android",
+    "test:integration": "node --test scripts/tests/*.test.mjs"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.6.10",
+    "@capacitor/core": "^7.6.10"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.6.10"
+  }
+}
